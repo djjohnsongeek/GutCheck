@@ -1,8 +1,13 @@
-﻿<h1>Login</h1>
+﻿@model GutCheck.Web.Models.LoginViewModel
+
+<h1>Login</h1>
 <article>
-    <label>Username</label>
-    <input name="username" />
-    <label>Password</label>
-    <input name="password" type="password" />
-    <button type="button">Submit</button>
+    <form asp-route="Login">
+        <input type="hidden" asp-for="ReturnUrl" />
+        <label asp-for="Username"></label>
+        <input asp-for="Username" />
+        <label asp-for="Password"></label>
+        <input asp-for="Password" type="password" />
+        <button type="submit">Login</button>
+    </form>
 </article>

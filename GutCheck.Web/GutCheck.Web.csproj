@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\GutCheck.Core\GutCheck.Core.csproj" />
     <ProjectReference Include="..\GutCheck.Infrastructure\GutCheck.Infrastructure.csproj" />
   </ItemGroup>
 

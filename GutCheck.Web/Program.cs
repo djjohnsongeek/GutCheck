@@ -1,6 +1,8 @@
 using GutCheck.Infrastructure.Data;
+using GutCheck.Infrastructure.Services;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
-namespace TestError.Web
+namespace GutCheck.Web
 {
     public class Program
     {
@@ -10,7 +12,11 @@ namespace TestError.Web
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
-            builder.Services.AddSingleton<DapperContext>();
+            builder.Services.AddScoped<DapperContext>();
+            builder.Services.AddScoped<AuthService>();
+
+            builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, o => o.LoginPath="/auth/Login");
 
             var app = builder.Build();
 
@@ -23,9 +29,12 @@ namespace TestError.Web
             }
 
             app.UseHttpsRedirection();
+
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 

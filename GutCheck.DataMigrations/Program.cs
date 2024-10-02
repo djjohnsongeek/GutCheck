@@ -13,7 +13,7 @@ namespace GutCheck.DataMigrations
         static async Task Main(string[] args)
         {
             DapperContext dbContext = new DapperContext(GutCheckSqlConnection);
-            using IDbConnection conn = dbContext.CreateConnection();
+            using IDbConnection conn = dbContext.GetConnection();
 
             await InitializeDatabaseSchema(conn);
             await AddUsersToDatabase(conn);
@@ -43,7 +43,8 @@ namespace GutCheck.DataMigrations
             {
                 Email = "danieleejohnson@gmail.com",
                 Username = "djohnson",
-                HashedPassword = ""
+                HashedPassword = "",
+                Role = "",
             };
             newUser.HashedPassword = hasher.HashPassword(newUser, "password");
 

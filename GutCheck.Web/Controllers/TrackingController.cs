@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using GutCheck.Web.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace GutCheck.Web.Controllers
 {
+    [Authorize]
     public class TrackingController : BaseController
     {
         public IActionResult Food()

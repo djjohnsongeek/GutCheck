@@ -19,7 +19,7 @@ namespace GutCheck.Infrastructure.Data
             _connectionString = connString;
         }
 
-        public IDbConnection CreateConnection()
+        public IDbConnection GetConnection()
         {
             if (_connectionString == null)
             {
