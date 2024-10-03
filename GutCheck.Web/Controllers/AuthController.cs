@@ -5,6 +5,7 @@ using System.Security.Claims;
 using GutCheck.Core.Entities;
 using Microsoft.AspNetCore.Authentication;
 using GutCheck.Core.Interfaces;
+using GutCheck.Core.Types;
 
 namespace GutCheck.Web.Controllers
 {
@@ -18,7 +19,7 @@ namespace GutCheck.Web.Controllers
         }
 
         [HttpGet]
-        public IActionResult Login(string returnUrl = "/")
+        public IActionResult Login(string returnUrl = "/Tracking/Progress")
         {
             return View(new LoginViewModel { Subtitle = "Login", ReturnUrl = returnUrl });
         }
@@ -31,6 +32,12 @@ namespace GutCheck.Web.Controllers
         }
 
         [HttpGet]
+        public IActionResult Register()
+        {
+            return View(new BaseViewModel { Subtitle = "Register" });
+        }
+
+        [HttpGet]
         public IActionResult AccessDenied()
         {
             return View(new BaseViewModel { Subtitle = "Access Denined" });
@@ -39,29 +46,29 @@ namespace GutCheck.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel loginModel)
         {
-            User? user = await AuthService.AuthenticateUser(loginModel.Username, loginModel.Password);
-            if (user == null) return Unauthorized();
+            AuthResult result = await AuthService.AuthenticateUser(loginModel.Username, loginModel.Password);
+            if (result.IsAuthenticated)
+            {
+                var claims = new List<Claim> {
+                    new Claim(ClaimTypes.NameIdentifier, result.User.Id.ToString()),
+                    new Claim(ClaimTypes.Name, result.User.Username),
+                    new Claim(ClaimTypes.Role, result.User.Role)
+                };
 
-            var claims = new List<Claim> {
-                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new Claim(ClaimTypes.Name, user.Username),
-                new Claim(ClaimTypes.Role, user.Role)
-            };
+                var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                var principal = new ClaimsPrincipal(identity);
 
-            var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-            var principal = new ClaimsPrincipal(identity);
+                await HttpContext.SignInAsync(
+                    scheme: CookieAuthenticationDefaults.AuthenticationScheme,
+                    principal: principal,
+                    properties: new AuthenticationProperties { IsPersistent = loginModel.RememberLogin });
 
-            await HttpContext.SignInAsync(
-                scheme: CookieAuthenticationDefaults.AuthenticationScheme,
-                principal: principal,
-                properties: new AuthenticationProperties { IsPersistent = loginModel.RememberLogin });
+                return LocalRedirect(loginModel.ReturnUrl);
+            }
 
-            return LocalRedirect(loginModel.ReturnUrl);
-        }
-
-        public IActionResult Register()
-        {
-            return View(new BaseViewModel { Subtitle = "Register" });
+            loginModel.Password = "";
+            loginModel.Messages.Add(new ServerMessage(result.Errors);
+            return View(loginModel);
         }
     }
 }

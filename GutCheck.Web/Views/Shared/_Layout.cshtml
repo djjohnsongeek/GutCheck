@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="color-scheme" content="light dark" />
     <link rel="stylesheet" href="~/lib/pico/pico.styles.css" />
+    <link rel="stylesheet" href="~/lib/pico/pico.colors.css" />
     <link rel="stylesheet" href="~/css/site.css" />
     <title>Gut Check - @Model.Subtitle</title>
 </head>
@@ -13,15 +14,20 @@
     <main class="container">
         <nav>
             <ul>
-                <li><strong>Test App Index</strong></li>
+                <li><a asp-controller="Home" asp-action="Index">GutCheck</a></li>
             </ul>
             <ul>
-                <li><a asp-controller="Tracking" asp-action="Food">Food</a></li>
-                <li><a asp-controller="Tracking" asp-action="Weight">Weight</a></li>
-                <li><a asp-controller="Tracking" asp-action="Progress">Progress</a></li>
-                <li><a asp-controller="Home" asp-action="Index">Home</a></li>
+                @if (User.Identity != null && User.Identity.IsAuthenticated)
+                {
+                    <li><a asp-controller="Tracking" asp-action="Food">Food</a></li>
+                    <li><a asp-controller="Tracking" asp-action="Weight">Weight</a></li>
+                    <li><a asp-controller="Tracking" asp-action="Progress">Progress</a></li>
+                }
                 <li><a asp-controller="Home" asp-action="Privacy">Privacy</a></li>
-                <li><a asp-controller="Auth" asp-action="Register">Register</a></li>
+                @if (User.Identity == null || !User.Identity.IsAuthenticated)
+                {
+                    <li><a asp-controller="Auth" asp-action="Register">Register</a></li>
+                }
             </ul>
             <ul class="icons">
                 @if (User.Identity != null && User.Identity.IsAuthenticated)
@@ -43,7 +49,7 @@
         </nav>
         @RenderBody()
     </main>
+    @RenderSection("Scripts", required: false)
+    <script asp-append-version="true" src="~/js/site.js"></script>
 </body>
-@RenderSection("Scripts", required: false)
-<script asp-append-version="true" src="~/js/site.js"></script>
 </html>

@@ -2,7 +2,10 @@
 using System.Text;
 using GutCheck.Core.Entities;
 using GutCheck.Core.Interfaces;
+using GutCheck.Core.Errors;
 using Microsoft.Extensions.Configuration;
+using System.Data.Common;
+using GutCheck.Core.Types;
 
 namespace GutCheck.Infrastructure.Services
 {
@@ -15,20 +18,40 @@ namespace GutCheck.Infrastructure.Services
 			UserRepo = userRepo;
 		}
 
-		public async Task<User?> AuthenticateUser(string username, string password)
+		public async Task<AuthResult> AuthenticateUser(string username, string password)
 		{
-			User? user = await UserRepo.GetUserByUsername(username);
-			if (user != null)
+			var result = new AuthResult();
+			try
 			{
-				string pwHash = HashPassword(password);
-				if (pwHash == user.HashedPassword)
+				User? user = await UserRepo.GetUserByUsername(username);
+				if (ValidatePassword(user, password))
 				{
-					return user;
+					result.User = user;
+				}
+				else
+				{
+					result.Errors.Add(new AuthenticationError("Invalid Login Credentials. Login Failed."));
 				}
 			}
+			catch (DbException dbEx)
+			{
+				result.Errors.Add(new AuthenticationError("A Database error occured. Login Failed."));
+				// TODO: Log the exception
+			}
 
-			return null;
+			return result;
 		}
+
+		private bool ValidatePassword(User? user, string password)
+		{
+			if (user == null)
+			{
+				return false;
+			}
+
+            string pwHash = HashPassword(password);
+			return pwHash == user.HashedPassword;
+        }
 
 		public static string HashPassword(string input)
 		{

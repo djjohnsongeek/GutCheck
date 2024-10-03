@@ -1,9 +1,9 @@
-﻿using GutCheck.Core.Entities;
+﻿using GutCheck.Core.Types;
 
 namespace GutCheck.Core.Interfaces
 {
 	public interface IAuthService
 	{
-		Task<User?> AuthenticateUser(string username, string password);
+        Task<AuthResult> AuthenticateUser(string username, string password);
 	}
 }

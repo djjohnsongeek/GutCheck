@@ -1,0 +1,20 @@
+﻿@model GutCheck.Web.Models.BaseViewModel
+<div>
+	@foreach (var message in Model.Messages)
+	{
+		string className = "";
+		if (message.Category == ServerMessageCategory.Error)
+		{
+			className = "pico-background-red-550";
+		}
+		else if (message.Category == ServerMessageCategory.Warning)
+		{
+			className = "pico-background-amber-200";
+		}
+		else if (message.Category == ServerMessageCategory.Info)
+		{
+			className = "pico-background-slate-100";
+		}
+		<article class="@className">@message.Message</article>
+	}
+</div>

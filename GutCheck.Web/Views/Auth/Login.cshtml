@@ -1,6 +1,7 @@
 ﻿@model GutCheck.Web.Models.LoginViewModel
 
 <h1>Login</h1>
+<partial name="../Shared/_ServerMessages.cshtml"></partial>
 <article>
     <form asp-route="Login">
         <input type="hidden" asp-for="ReturnUrl" />
