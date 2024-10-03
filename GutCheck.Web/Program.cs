@@ -1,5 +1,6 @@
 using GutCheck.Core.Interfaces;
 using GutCheck.Infrastructure.Data;
+using GutCheck.Infrastructure.Repositories;
 using GutCheck.Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 
@@ -21,7 +22,7 @@ namespace GutCheck.Web
             builder.Services.AddScoped<IAuthService, AuthService>();
 
             // Data Access Repositories
-            builder.Services.AddScoped<IUserRepository, IUserRepository>();
+            builder.Services.AddScoped<IUserRepository, UserRepository>();
 
             builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, o => o.LoginPath="/auth/Login");

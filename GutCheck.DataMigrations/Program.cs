@@ -28,9 +28,10 @@ namespace GutCheck.DataMigrations
                 await conn.ExecuteAsync(createSchemaSql);
                 Console.WriteLine("Database SCHEMA created.");
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 Console.WriteLine($"Failed to read file: {SchemaSqlFilePath}");
+                Console.WriteLine(ex.Message);
                 Environment.Exit(1);
             }
         }
@@ -45,11 +46,11 @@ namespace GutCheck.DataMigrations
                 Username = "djohnson",
                 HashedPassword = "",
                 Role = "Admin",
-                IsConfirmed = false,
+                IsConfirmed = true,
             };
             newUser.HashedPassword = hasher.HashPassword(newUser, "password");
 
-            string insertSql = "INSERT INTO dbo.Users (Username, Email, HashedPassword) VALUES (@Username, @Email, @HashedPassword)";
+            string insertSql = "INSERT INTO dbo.Users (Username, Email, HashedPassword, Role, IsConfirmed) VALUES (@Username, @Email, @HashedPassword, @Role, @IsConfirmed)";
             int rowsAffected = await conn.ExecuteAsync(insertSql, newUser);
             bool result = rowsAffected >= 1;
 

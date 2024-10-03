@@ -16,8 +16,7 @@ namespace GutCheck.Infrastructure.Repositories
 		{
 			string sqlQuery = "SELECT * FROM Users WHERE Username = @Username";
 			using IDbConnection conn = DbContext.GetConnection();
-			SqlParameter parameter = new SqlParameter("Username", username);
-			return await conn.QueryFirstOrDefaultAsync<User>(sqlQuery, parameter);
+			return await conn.QueryFirstOrDefaultAsync<User>(sqlQuery, new { Username = username});
 		}
 	}
 }

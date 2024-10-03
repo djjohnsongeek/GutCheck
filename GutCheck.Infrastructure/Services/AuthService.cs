@@ -2,16 +2,15 @@
 using System.Text;
 using GutCheck.Core.Entities;
 using GutCheck.Core.Interfaces;
-using GutCheck.Infrastructure.Repositories;
 using Microsoft.Extensions.Configuration;
 
 namespace GutCheck.Infrastructure.Services
 {
 	public class AuthService : IAuthService
 	{
-		private UserRepository UserRepo { get; set; }
+		private IUserRepository UserRepo { get; set; }
 
-		public AuthService(IConfiguration config, UserRepository userRepo)
+		public AuthService(IConfiguration config, IUserRepository userRepo)
 		{
 			UserRepo = userRepo;
 		}

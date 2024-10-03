@@ -1,18 +1,18 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using GutCheck.Web.Models;
-using GutCheck.Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Security.Claims;
 using GutCheck.Core.Entities;
 using Microsoft.AspNetCore.Authentication;
+using GutCheck.Core.Interfaces;
 
 namespace GutCheck.Web.Controllers
 {
     public class AuthController : BaseController
     {
-        private AuthService AuthService;
+        private IAuthService AuthService;
 
-        public AuthController(AuthService authService)
+        public AuthController(IAuthService authService)
         {
             AuthService = authService;
         }
