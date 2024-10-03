@@ -44,7 +44,8 @@ namespace GutCheck.DataMigrations
                 Email = "danieleejohnson@gmail.com",
                 Username = "djohnson",
                 HashedPassword = "",
-                Role = "",
+                Role = "Admin",
+                IsConfirmed = false,
             };
             newUser.HashedPassword = hasher.HashPassword(newUser, "password");
 

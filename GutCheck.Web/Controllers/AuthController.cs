@@ -33,8 +33,7 @@ namespace GutCheck.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel loginModel)
         {
-            User user = AuthService.AuthenticateUser(loginModel.Username, loginModel.Password);
-
+            User? user = await AuthService.AuthenticateUser(loginModel.Username, loginModel.Password);
             if (user == null) return Unauthorized();
 
             var claims = new List<Claim> {

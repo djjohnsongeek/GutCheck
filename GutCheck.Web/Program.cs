@@ -1,3 +1,4 @@
+using GutCheck.Core.Interfaces;
 using GutCheck.Infrastructure.Data;
 using GutCheck.Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -12,8 +13,15 @@ namespace GutCheck.Web
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            
+            // Database context
             builder.Services.AddScoped<DapperContext>();
-            builder.Services.AddScoped<AuthService>();
+
+            // Business Logic Services
+            builder.Services.AddScoped<IAuthService, AuthService>();
+
+            // Data Access Repositories
+            builder.Services.AddScoped<IUserRepository, IUserRepository>();
 
             builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, o => o.LoginPath="/auth/Login");
