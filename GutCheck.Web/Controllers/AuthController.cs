@@ -30,6 +30,12 @@ namespace GutCheck.Web.Controllers
             return Redirect("/");
         }
 
+        [HttpGet]
+        public IActionResult AccessDenied()
+        {
+            return View(new BaseViewModel { Subtitle = "Access Denined" });
+        }
+
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel loginModel)
         {

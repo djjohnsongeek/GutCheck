@@ -1,7 +1,7 @@
 ﻿using Dapper;
 using GutCheck.Core.Entities;
 using GutCheck.Infrastructure.Data;
-using Microsoft.AspNetCore.Identity;
+using GutCheck.Infrastructure.Services;
 using System.Data;
 
 namespace GutCheck.DataMigrations
@@ -38,8 +38,6 @@ namespace GutCheck.DataMigrations
 
         static async Task<bool> AddUsersToDatabase(IDbConnection conn)
         {
-            IPasswordHasher<User> hasher = new PasswordHasher<User>();
-
             User newUser = new User
             {
                 Email = "danieleejohnson@gmail.com",
@@ -48,7 +46,7 @@ namespace GutCheck.DataMigrations
                 Role = "Admin",
                 IsConfirmed = true,
             };
-            newUser.HashedPassword = hasher.HashPassword(newUser, "password");
+            newUser.HashedPassword = AuthService.HashPassword("password");
 
             string insertSql = "INSERT INTO dbo.Users (Username, Email, HashedPassword, Role, IsConfirmed) VALUES (@Username, @Email, @HashedPassword, @Role, @IsConfirmed)";
             int rowsAffected = await conn.ExecuteAsync(insertSql, newUser);

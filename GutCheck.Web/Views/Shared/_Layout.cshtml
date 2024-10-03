@@ -7,7 +7,7 @@
     <meta name="color-scheme" content="light dark" />
     <link rel="stylesheet" href="~/lib/pico/pico.styles.css" />
     <link rel="stylesheet" href="~/css/site.css" />
-    <title>Test Error App - @Model.Subtitle</title>
+    <title>Gut Check - @Model.Subtitle</title>
 </head>
 <body>
     <main class="container">
@@ -21,10 +21,21 @@
                 <li><a asp-controller="Tracking" asp-action="Progress">Progress</a></li>
                 <li><a asp-controller="Home" asp-action="Index">Home</a></li>
                 <li><a asp-controller="Home" asp-action="Privacy">Privacy</a></li>
-                <li><a asp-controller="Auth" asp-action="Login">Login</a></li>
                 <li><a asp-controller="Auth" asp-action="Register">Register</a></li>
             </ul>
             <ul class="icons">
+                @if (User.Identity != null && User.Identity.IsAuthenticated)
+                {
+                    <li>
+                        <span>Welcome @User.Identity.Name</span>
+                    </li>
+                    <li>
+                        <a asp-controller="Auth" asp-action="Logout">Logout</a>
+                    </li>
+                }
+                else {
+                    <li><a asp-controller="Auth" asp-action="Login">Login</a></li>
+                }
                 <li>
                     <span id="color-theme-toggle" class="pointer-on-hover">☀️</span>
                 </li>

@@ -14,6 +14,7 @@ namespace GutCheck.Web
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            builder.Services.AddHttpContextAccessor();
             
             // Database context
             builder.Services.AddScoped<DapperContext>();
@@ -25,7 +26,15 @@ namespace GutCheck.Web
             builder.Services.AddScoped<IUserRepository, UserRepository>();
 
             builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, o => o.LoginPath="/auth/Login");
+                .AddCookie(
+                authenticationScheme: CookieAuthenticationDefaults.AuthenticationScheme,
+                configureOptions: o => {
+                    o.LoginPath = "/auth/Login";
+                    o.AccessDeniedPath = "/auth/AccessDenied";
+                    o.Cookie.SameSite = SameSiteMode.Strict;
+                    }
+                );
+            // we can add handlers to  cookie events here such OnValidatePrinciple
 
             var app = builder.Build();
 

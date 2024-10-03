@@ -30,7 +30,7 @@ namespace GutCheck.Infrastructure.Services
 			return null;
 		}
 
-		private string HashPassword(string input)
+		public static string HashPassword(string input)
 		{
 			using var sha = SHA256.Create();
 			byte[] bytes = Encoding.UTF8.GetBytes(input);
