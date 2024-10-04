@@ -2,7 +2,6 @@
 using GutCheck.Web.Models;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Security.Claims;
-using GutCheck.Core.Entities;
 using Microsoft.AspNetCore.Authentication;
 using GutCheck.Core.Interfaces;
 using GutCheck.Core.Types;
@@ -40,7 +39,7 @@ namespace GutCheck.Web.Controllers
         [HttpGet]
         public IActionResult AccessDenied()
         {
-            return View(new BaseViewModel { Subtitle = "Access Denined" });
+            return View(new BaseViewModel { Subtitle = "Access Denied" });
         }
 
         [HttpPost]
@@ -67,7 +66,7 @@ namespace GutCheck.Web.Controllers
             }
 
             loginModel.Password = "";
-            loginModel.Messages.Add(new ServerMessage(result.Errors);
+            loginModel.Messages.AddErrors(result.Errors);
             return View(loginModel);
         }
     }

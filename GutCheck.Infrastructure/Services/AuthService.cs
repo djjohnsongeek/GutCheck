@@ -6,6 +6,7 @@ using GutCheck.Core.Errors;
 using Microsoft.Extensions.Configuration;
 using System.Data.Common;
 using GutCheck.Core.Types;
+using Microsoft.Data.SqlClient;
 
 namespace GutCheck.Infrastructure.Services
 {
@@ -33,7 +34,7 @@ namespace GutCheck.Infrastructure.Services
 					result.Errors.Add(new AuthenticationError("Invalid Login Credentials. Login Failed."));
 				}
 			}
-			catch (DbException dbEx)
+			catch (SqlException ex)
 			{
 				result.Errors.Add(new AuthenticationError("A Database error occured. Login Failed."));
 				// TODO: Log the exception

@@ -4,6 +4,6 @@
     {
         public required string Subtitle { get; set; }
 
-        public List<ServerMessage> Messages { get; set; } = new List<ServerMessage>();
+        public ServerMessageCollection Messages { get; set; } = new ServerMessageCollection();
     }
 }

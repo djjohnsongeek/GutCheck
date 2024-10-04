@@ -2,7 +2,9 @@
 using GutCheck.Core.Entities;
 using GutCheck.Core.Interfaces;
 using GutCheck.Infrastructure.Data;
+using Microsoft.Data.SqlClient;
 using System.Data;
+using System.Data.Common;
 
 namespace GutCheck.Infrastructure.Repositories
 {
