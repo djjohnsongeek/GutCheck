@@ -4,7 +4,6 @@ using GutCheck.Core.Entities;
 using GutCheck.Core.Interfaces;
 using GutCheck.Core.Errors;
 using Microsoft.Extensions.Configuration;
-using System.Data.Common;
 using GutCheck.Core.Types;
 using Microsoft.Data.SqlClient;
 
