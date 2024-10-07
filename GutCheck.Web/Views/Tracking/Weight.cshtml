@@ -1,6 +1,12 @@
-﻿<h1>Track Weight</h1>
+﻿@model GutCheck.Web.Models.WeightViewModel
+
+<h1>Track Weight</h1>
 <article>
-    <label>Weight</label>
-    <input name="description" type="number" />
-    <button type="button">Submit</button>
+    <form asp-controller="Tracking" asp-action="SaveWeight" method="POST">
+        <label asp-for="@Model.Data.Weight"></label>
+        <input asp-for="@Model.Data.Weight" type="number" />
+        <label asp-for="@Model.Data.Date"></label>
+        <input asp-for="@Model.Data.Date" type="date" />
+        <button type="submit">Submit</button>
+    </form>
 </article>
