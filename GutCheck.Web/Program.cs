@@ -21,9 +21,12 @@ namespace GutCheck.Web
 
             // Business Logic Services
             builder.Services.AddScoped<IAuthService, AuthService>();
+            builder.Services.AddScoped<ITrackingService, TrackingService>();
+
 
             // Data Access Repositories
             builder.Services.AddScoped<IUserRepository, UserRepository>();
+            builder.Services.AddScoped<IWeightRecordRepository, WeightRecordRepository>();
 
             builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(

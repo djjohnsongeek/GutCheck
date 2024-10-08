@@ -2,12 +2,20 @@
 using GutCheck.Web.Models;
 using Microsoft.AspNetCore.Authorization;
 using GutCheck.Core.Entities;
+using GutCheck.Core.Interfaces;
 
 namespace GutCheck.Web.Controllers
 {
     [Authorize]
     public class TrackingController : BaseController
     {
+        private ITrackingService TrackingService { get; set; }
+
+        public TrackingController(ITrackingService trackingService)
+        {
+            TrackingService = trackingService;
+        }
+
         [HttpGet]
         public IActionResult Food()
         {
@@ -30,7 +38,10 @@ namespace GutCheck.Web.Controllers
         public IActionResult SaveWeight(WeightViewModel weightModel)
         {
             Console.WriteLine(weightModel.Data);
-            return View("Weight", ViewModelFactory.CreateWeightViewModel());
+            TrackingService.TrackWeight(weightModel.ToDTO(CurrentUserId));
+
+            List<ServerMessage> messages = new List<ServerMessage> { new ServerMessage("Weight Tracked!", ServerMessageCategory.Success) };
+            return View("Weight", ViewModelFactory.CreateWeightViewModel(messages));
         }
     }
 }

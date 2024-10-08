@@ -69,6 +69,7 @@ namespace GutCheck.Web.Models
     {
         Info,
         Warning,
-        Error
+        Error,
+        Success
     }
 }

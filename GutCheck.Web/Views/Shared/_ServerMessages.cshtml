@@ -15,6 +15,10 @@
 		{
 			className = "pico-background-slate-100";
 		}
+		else if (message.Category == ServerMessageCategory.Success)
+		{
+			className = "pico-background-green-400";
+		}
 		<article class="@className">@message.Message</article>
 	}
 </div>
